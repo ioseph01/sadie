@@ -1,6 +1,5 @@
 import math
 import random
-from shutil import move
 import pygame
 from globals import *
 from scripts.Particles import Color_Particle, Particle
@@ -517,6 +516,7 @@ class Totem(Entity):
                 b.hp -= 1
                 b.velocity[0] *= -1
                 b.velocity[1] *= -1
+                b.bounces -= 1
                 self.animation.play()
                 self.spawn(b)
 
