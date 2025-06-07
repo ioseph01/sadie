@@ -70,6 +70,11 @@ class Game:
         self.inventory_copy = [0,0,0]
         self.hp = [5,5]
         self.load_level()
+        
+    def in_check(self, e):
+        if int(e.pos[0]) in range(0,DISPLAY[0]) and int(e.pos[1]) in range(0,DISPLAY[1]):
+            return True
+        return False
 
     def load_level(self):
         if self.level == 26:
@@ -136,7 +141,6 @@ class Game:
                 else:
                     self.enemies.append( Enemy(self, spawner['type'], spawner['pos'], (6,5), [0,0,1], step=15, hp=1, var=spawner['variant'], animation=False))
                     
-        self.run
  
             
 
@@ -183,7 +187,6 @@ class Game:
                 img = self.swap_color(img, (255,241,232),(255,236,49))
             self.display.blit(self.assets['disk'][2],(29,1))
             self.display.blit(img, (32,4))
-
             for disk in self.disks[::-1]:
                 if disk.hp <= 0:
                     self.disks.remove(disk)
@@ -192,7 +195,7 @@ class Game:
                     disk.render(self.display, render_scroll)
                     
             for enemy in self.enemies[::-1]:
-                if enemy.hp <= 0:
+                if enemy.hp <= 0 or not self.in_check(enemy):
                     self.enemies.remove(enemy)
                     if random.randint(0,15) == 0:
                         self.disks.append(Heart(self,enemy.pos))
@@ -201,7 +204,7 @@ class Game:
                     enemy.render(self.display, render_scroll)
                     
             for bullet in self.enemy_bullets[::-1]:
-                if bullet.hp <= 0:
+                if bullet.hp <= 0 or not self.in_check(bullet):
                     self.enemy_bullets.remove(bullet)
                     if bullet.spawn:
                         self.disks.append(Disk(self, bullet.pos, bullet.var % 3))
@@ -211,7 +214,7 @@ class Game:
                     bullet.render(self.display, render_scroll)
                     
             for bullet in self.player_bullets[::-1]:
-                if bullet.hp <= 0:
+                if bullet.hp <= 0 or not self.in_check(bullet):
                     self.player_bullets.remove(bullet)
                     self.disks.append(Disk(self, bullet.pos, bullet.var))
                 else:
