@@ -1,0 +1,8 @@
+
+SCREEN = (600,400)
+DISPLAY = (168,112)
+PHYSICS_TILES = {'walls'}
+INTERACT_TILES = {'interact'}
+RATIO = SCREEN[0] / DISPLAY[0]
+LVL_PREFIX = 'data/levels/'
+FILENAME = 0
